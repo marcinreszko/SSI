@@ -31,8 +31,8 @@ List<Value> GetRandomCenterPoints(List<Value> values, int m)
     }
 
     return result;
-}
 
+}
 
 var centerPoints = GetRandomCenterPoints(data, GroupCount);
 
