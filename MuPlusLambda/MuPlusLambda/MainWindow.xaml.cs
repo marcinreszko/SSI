@@ -16,9 +16,13 @@ namespace MuPlusLambda
         public async Task Process()
         {
             var plot = (PlotViewModel)DataContext;
-            var muPlusLambda = new MuPlusLambdaImpl(plot);
-
-            await muPlusLambda.Process(UpdateIteration, UpdateBestInIteration);
+            var muPlusLambda = new MuPlusLambdaImpl(plot)
+            {
+                BestIndividualFound = UpdateBestIndividual,
+                IterationUpdated = UpdateIteration,
+            };
+            
+            await muPlusLambda.Process(Dispatcher);
         }
 
         private void UpdateIteration(int iteration)
@@ -26,7 +30,7 @@ namespace MuPlusLambda
             Iteration.Text = $"Iteracja: {iteration}";
         }
 
-        private void UpdateBestInIteration(Individual individual)
+        private void UpdateBestIndividual(Individual individual)
         {
             BestInIteration.Text = $"Najlepszy wynik: {individual.F}";
         }
