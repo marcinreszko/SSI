@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MuPlusLambda", "MuPlusLambda.csproj", "{12B2AF9A-9678-437F-B3D1-B35193C6968A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12B2AF9A-9678-437F-B3D1-B35193C6968A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12B2AF9A-9678-437F-B3D1-B35193C6968A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12B2AF9A-9678-437F-B3D1-B35193C6968A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12B2AF9A-9678-437F-B3D1-B35193C6968A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {729D0B55-8FC0-43AF-BA1F-C6C9C837CCA2}
+	EndGlobalSection
+EndGlobal
