@@ -33,5 +33,10 @@ namespace KMeans
         {
             IterationText.Text = value;
         }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await Process();
+        }
     }
 }

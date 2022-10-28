@@ -11,8 +11,6 @@ namespace KMeans
         {
             MainWindow = new MainWindow();
             MainWindow.Show();
-
-            await ((MainWindow)MainWindow).Process();
         }
     }
 }
