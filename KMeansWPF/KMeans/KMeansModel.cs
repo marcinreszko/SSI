@@ -8,7 +8,7 @@ namespace KMeans
     public class KMeansModel
     {
         private const int GroupCount = 4;
-        private const int ItersCount = 11;
+        private const int ItersCount = 20;
 
         private double CalculateDistance(Value sample, Value center)
         {

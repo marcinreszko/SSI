@@ -1,7 +1,8 @@
 ﻿using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Series;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace KMeans
 {
@@ -16,50 +17,79 @@ namespace KMeans
                 Title = "KMeans"
             };
 
-            var fileData = new LineSeries
-            {
-                MarkerType = MarkerType.Circle,
-                MarkerFill = OxyColor.FromRgb(0, 255, 0),
-                LineStyle = LineStyle.None,
-                ItemsSource = FileData,
+            var customAxis = GetColorAxis();
+            customAxis.AddRange(0, 0.1, OxyColors.Red);
+            customAxis.AddRange(0.1, 0.2, OxyColors.Black);
+            customAxis.AddRange(0.2, 0.3, OxyColors.Green);
+            customAxis.AddRange(0.3, 1, OxyColors.Orange);
+            customAxis.AddRange(1, 1.1, OxyColors.Blue);
+            Plot.Axes.Add(customAxis);
+
+            var scatter = new ScatterSeries 
+            { 
+                ColorAxisKey = customAxis.Key 
             };
+            Plot.Series.Add(scatter);
 
-            var centroids = new LineSeries
-            {
-                MarkerType = MarkerType.Circle,
-                LineStyle = LineStyle.None,
-                MarkerFill = OxyColor.FromRgb(255, 0, 0),
-                ItemsSource = Centroids
-            };
-
-            Plot.Series.Add(fileData);
-            Plot.Series.Add(centroids);
-
-            Centroids.CollectionChanged += (_, _) => Plot.InvalidatePlot(true);
+            Plot.InvalidatePlot(true);
         }
 
-        public ObservableCollection<DataPoint> FileData { get; set; } = new ObservableCollection<DataPoint>();
+        public IEnumerable<Value> FileData { get; set; }
 
-        public ObservableCollection<DataPoint> Centroids { get; set; } = new ObservableCollection<DataPoint>();
-
-        public void UpdateCentroid(IEnumerable<Value> values)
+        public void UpdateCentroid(IEnumerable<Value> centroids)
         {
-            Centroids.Clear();
+            Plot.Series.Clear();
 
-            foreach (var value in values)
+            var colorAxis = GetColorAxis();
+
+            var points = new ScatterSeries 
+            { 
+                ColorAxisKey = colorAxis.Key,
+                MarkerSize = 16,
+                MarkerType = MarkerType.Circle
+            };
+
+            int colorIdx = 0;
+            foreach (var centroid in centroids.OrderBy(x => x.X))
             {
-                Centroids.Add(value.ToDataPoint());
+                var color = _colorRanges.ElementAt(colorIdx);
+
+                points.Points.Add(new ScatterPoint(centroid.X, centroid.Y, 3, color));
+
+                foreach (var filePoint in FileData.Where(x => x.X >= centroid.X).ToList())
+                {
+                    points.Points.Add(new ScatterPoint(filePoint.X, filePoint.Y, 2, color));
+                }
+
+                colorIdx++;
             }
+
+            Plot.Axes.Add(colorAxis);
+            Plot.Series.Add(points);
+
+            Plot.InvalidatePlot(true);
         }
 
         public void UpdateFileData(IEnumerable<Value> values)
         {
-            foreach (var value in values)
-            {
-                FileData.Add(value.ToDataPoint());
-            }
+            FileData = values;
+        }
 
-            Plot.InvalidatePlot(true);
+        private readonly double[] _colorRanges =
+        {
+            0,
+            0.1,
+            0.2,
+            0.3,
+            0.4
+        };
+
+        private RangeColorAxis GetColorAxis()
+        {
+            return new RangeColorAxis
+            {
+                Key = "colors"
+            };
         }
     }
 }
