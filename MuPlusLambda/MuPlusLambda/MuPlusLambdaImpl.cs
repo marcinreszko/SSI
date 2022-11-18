@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,7 +35,9 @@ namespace MuPlusLambda
         {
             var parentPopulation = _populationGenerator.GeneratePopulation(_mu);
             var descendantPopulation = new List<Individual>();
+            
             DrawParentPopulation(parentPopulation);
+            DrawContour();
 
             await Task.Delay(_delay);
 
@@ -82,6 +87,48 @@ namespace MuPlusLambda
                 PlotVm.ParentPopulation.Add(individual.ToDataPoint());
             }
 
+            PlotVm.Plot.InvalidatePlot(true);
+        }
+
+        private void DrawContour()
+        {
+            const int Max = 100;
+
+            double[,] data = new double[Max, Max];
+            var palette = OxyPalettes.Jet(Max);
+
+            PlotVm.Plot.Axes.Add(new LinearColorAxis
+            {
+                Position = AxisPosition.Right,
+                Palette = palette,
+                HighColor = OxyColors.Gray,
+                LowColor = OxyColors.Black
+            });
+            
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    data[i, j] = Extensions.F(i, j);
+                }
+            }
+
+            var rows = Enumerable.Range(0, data.Length)
+                .Select(x => double.Parse(x.ToString()))
+                .ToArray();
+            
+            var cs = new ContourSeries
+            {
+                LabelBackground = OxyColors.Transparent,
+                ColumnCoordinates = rows,
+                RowCoordinates = rows,
+                Data = data,
+                ContourColors = palette.Colors.ToArray(),
+                FontSize = 0,
+                TextColor = OxyColors.Transparent
+            };
+
+            PlotVm.Plot.Series.Add(cs);
             PlotVm.Plot.InvalidatePlot(true);
         }
 

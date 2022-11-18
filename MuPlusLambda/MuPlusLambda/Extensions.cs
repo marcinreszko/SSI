@@ -14,6 +14,15 @@ namespace MuPlusLambda
 
             return (float)result;
         }
+        
+        public static double F(int i, int j)
+        {
+            var result = Math.Sin(i * 0.05f)
+                + Math.Sin(j * 0.05f)
+                + 0.4f * Math.Sin(i * 0.15f) * Math.Sin(j * 0.15f);
+
+            return (double)result;
+        }
 
         public static Individual Best(this IEnumerable<Individual> population)
         {
