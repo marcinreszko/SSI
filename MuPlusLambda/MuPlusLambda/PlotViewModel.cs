@@ -46,7 +46,7 @@ namespace MuPlusLambda
             var parentPopulation = new LineSeries
             {
                 MarkerType = MarkerType.Circle,
-                MarkerFill = OxyColors.DeepSkyBlue,
+                MarkerFill = OxyColors.Red,
                 LineStyle = LineStyle.None,
                 ItemsSource = ParentPopulation
             };
@@ -56,7 +56,7 @@ namespace MuPlusLambda
                 MarkerType = MarkerType.Star,
                 LineStyle = LineStyle.None,
                 ItemsSource = DescendantPopulation,
-                MarkerStroke = OxyColors.Yellow
+                MarkerStroke = OxyColors.Black
             };
 
             Plot.Series.Add(parentPopulation);
